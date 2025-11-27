@@ -3,9 +3,9 @@
 if (!defined('DB_CONFIG')) {
     define('DB_CONFIG', [
         'host' => 'localhost',
-        'dbname' => 'new_agenda_2024',
+        'dbname' => 'filmes25',
         'user' => 'root',
-        'pass' => 'Gus2090@'
+        'pass' => 'knlima'
     ]);
 }
 
