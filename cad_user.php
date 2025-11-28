@@ -297,7 +297,7 @@
 
 <div class="login-box">
   <div class="login-logo">
-    <a href="cad_user.php">FilmCatalog</a>
+    <a href="cad_user.php">Filmes Catálogo</a>
   </div>
 
   <div class="card modern-card">
