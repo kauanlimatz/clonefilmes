@@ -276,6 +276,21 @@
       border-color: var(--accent-blue);
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
+
+    /* CORREÇÃO DO CORTE E SCROLL */
+    body {
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .login-box {
+        margin: 20px auto;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
   </style>
 </head>
 <body>
@@ -396,14 +411,19 @@ if (isset($_POST['botao'])) {
         $contar = $result->rowCount();
 
         if ($contar > 0) {
-            echo '<div class="container">
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-check"></i> Sucesso!</h5>
-                        Cadastro realizado! Bem-vindo ao FilmCatalog.
-                    </div>
-                </div>';
-        } else {
+    echo '<div class="container">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-check"></i> Sucesso!</h5>
+                Cadastro realizado! Redirecionando para login...
+            </div>
+        </div>';
+    echo '<script>
+        setTimeout(function() {
+            window.location.href = "index.php";
+        }, 2000);
+    </script>';
+} else {
             echo '<div class="container">
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
