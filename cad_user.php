@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>New Agenda 2.0 | Cadastro de Usuário</title>
+  <title>FilmCatalog | Cadastro</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,39 +16,307 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --dark-blue: #0f172a;
+      --medium-blue: #1e293b;
+      --light-blue: #334155;
+      --accent-blue: #3b82f6;
+      --gray-dark: #475569;
+      --gray-medium: #64748b;
+      --gray-light: #94a3b8;
+      --white: #f8fafc;
+      --border: #334155;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.07) 0%, transparent 50%);
+      z-index: 0;
+    }
+    
+    .login-box {
+      width: 420px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .card {
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--medium-blue);
+      backdrop-filter: blur(10px);
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 40px 30px 30px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    
+    .card-header::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+    
+    .card-header h3 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: -0.5px;
+    }
+    
+    .card-body {
+      padding: 40px;
+    }
+    
+    .logo-icon {
+      font-size: 48px;
+      color: var(--accent-blue);
+      margin-bottom: 20px;
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #2563eb 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+      background: linear-gradient(135deg, #2563eb 0%, var(--accent-blue) 100%);
+    }
+    
+    .form-control {
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: var(--dark-blue);
+      color: var(--white);
+      transition: all 0.3s ease;
+      font-weight: 400;
+    }
+    
+    .form-control::placeholder {
+      color: var(--gray-light);
+    }
+    
+    .form-control:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      background: var(--dark-blue);
+      color: var(--white);
+    }
+    
+    .input-group-text {
+      background: var(--dark-blue);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      color: var(--gray-light);
+      transition: all 0.3s ease;
+    }
+    
+    .input-group:focus-within .input-group-text {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    
+    .custom-file-label {
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--dark-blue);
+      border: 1px solid var(--border);
+      color: var(--gray-light);
+    }
+    
+    .custom-file-input:focus ~ .custom-file-label {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    
+    .login-logo a {
+      color: var(--white);
+      font-weight: 800;
+      font-size: 32px;
+      letter-spacing: -1px;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--white) 0%, var(--gray-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    
+    .login-box-msg {
+      color: var(--gray-light);
+      margin-bottom: 30px;
+      font-size: 15px;
+      text-align: center;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+    
+    .back-link {
+      color: var(--gray-light);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    .back-link:hover {
+      color: var(--accent-blue);
+      text-decoration: none;
+      transform: translateX(-2px);
+    }
+    
+    .form-group label {
+      font-weight: 600;
+      color: var(--gray-light);
+      margin-bottom: 10px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+    
+    .input-group {
+      margin-bottom: 24px;
+    }
+    
+    .modern-card {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .modern-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transform: rotate(45deg);
+      animation: shimmer 8s infinite linear;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: rotate(45deg) translateX(-100%); }
+      100% { transform: rotate(45deg) translateX(100%); }
+    }
+    
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .alert {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .alert-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    
+    .alert-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+    
+    .custom-file-input:focus ~ .custom-file-label {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+  </style>
 </head>
-<body class="hold-transition login-page">
+<body>
+
 <div class="login-box">
   <div class="login-logo">
-    <a href="cad_user.php" style="font-size: 25px"><b>Cadastre-se para ter acesso</b></a>
+    <a href="cad_user.php">FilmCatalog</a>
   </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Cadastre todos os dados para ter acesso a agenda</p>
+
+  <div class="card modern-card">
+    <div class="card-header">
+      <i class="fas fa-film logo-icon"></i>
+      <h3>Criar Conta</h3>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Cadastre-se para acessar nosso catálogo exclusivo de filmes</p>
 
       <form action="" method="post" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="exampleInputFile">Foto do usuário</label>
-        <div class="input-group">
+        <div class="form-group">
+          <label for="foto">Foto do Perfil</label>
+          <div class="input-group">
             <div class="custom-file">
-            <input type="file" class="custom-file-input" name="foto" id="foto">
-            <label class="custom-file-label" for="exampleInputFile">Arquivo de imagem</label>
-            </div>
-            
-        </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" name="nome" class="form-control" placeholder="Digite seu Nome..." required>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+              <input type="file" class="custom-file-input" name="foto" id="foto">
+              <label class="custom-file-label" for="foto">
+                <i class="fas fa-cloud-upload-alt mr-2"></i>Selecionar imagem
+              </label>
             </div>
           </div>
         </div>
+        
         <div class="input-group mb-3">
-          <input type="email" name="email" class="form-control" placeholder="Digite seu E-mail..." required>
+          <input type="text" name="nome" class="form-control" placeholder="Nome completo" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-group mb-3">
+          <input type="email" name="email" class="form-control" placeholder="E-mail" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -57,48 +325,41 @@
         </div>
         
         <div class="input-group mb-3">
-          <input type="password" name="senha" class="form-control" placeholder="Digite sua Senha..." required>
+          <input type="password" name="senha" class="form-control" placeholder="Senha" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
+        
         <div class="row">
-          <div class="col-8">
-            
-          </div>
-          <!-- /.col -->
           <div class="col-12" style="margin-bottom: 25px">
-            <button type="submit" name="botao" class="btn btn-primary btn-block">Finalizar Cadastro</button>
+            <button type="submit" name="botao" class="btn btn-primary btn-block">
+              <i class="fas fa-user-plus mr-2"></i>Criar Minha Conta
+            </button>
           </div>
-          <!-- /.col -->
         </div>
       </form>
-      <?php
-include_once('config/conexao.php'); // Inclui o arquivo de conexão com o banco de dados
 
-// Verifica se o formulário foi enviado
+      <?php
+include_once('config/conexao.php');
+
 if (isset($_POST['botao'])) {
-    // Recebe os dados do formulário
     $nome = $_POST['nome'];
     $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT); // Usando hash seguro para a senha
+    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 
-    // Verifica se foi enviado algum arquivo de foto
     if (!empty($_FILES['foto']['name'])) {
-        $formatosPermitidos = array("png", "jpg", "jpeg", "gif"); // Formatos permitidos
-        $extensao = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION); // Obtém a extensão do arquivo
+        $formatosPermitidos = array("png", "jpg", "jpeg", "gif");
+        $extensao = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
 
-        // Verifica se a extensão do arquivo está nos formatos permitidos
         if (in_array(strtolower($extensao), $formatosPermitidos)) {
-            $pasta = "img/user/"; // Define o diretório para upload
-            $temporario = $_FILES['foto']['tmp_name']; // Caminho temporário do arquivo
-            $novoNome = uniqid() . ".$extensao"; // Gera um nome único para o arquivo
+            $pasta = "img/user/";
+            $temporario = $_FILES['foto']['tmp_name'];
+            $novoNome = uniqid() . ".$extensao";
 
-            // Move o arquivo para o diretório de imagens
             if (move_uploaded_file($temporario, $pasta . $novoNome)) {
-                // Sucesso no upload da imagem
             } else {
                 echo '<div class="container">
                         <div class="alert alert-danger alert-dismissible">
@@ -107,7 +368,7 @@ if (isset($_POST['botao'])) {
                             Não foi possível fazer o upload do arquivo.
                         </div>
                     </div>';
-                exit(); // Termina a execução do script após o erro
+                exit();
             }
         } else {
             echo '<div class="container">
@@ -117,14 +378,12 @@ if (isset($_POST['botao'])) {
                         Formato de arquivo não permitido.
                     </div>
                 </div>';
-            exit(); // Termina a execução do script após o erro
+            exit();
         }
     } else {
-        // Define um avatar padrão caso não seja enviado nenhum arquivo de foto
-        $novoNome = 'avatar-padrao.png'; // Nome do arquivo de avatar padrão
+        $novoNome = 'avatar-padrao.png';
     }
 
-    // Prepara a consulta SQL para inserção dos dados do usuário
     $cadastro = "INSERT INTO tb_user (foto_user, nome_user, email_user, senha_user) VALUES (:foto, :nome, :email, :senha)";
 
     try {
@@ -140,44 +399,40 @@ if (isset($_POST['botao'])) {
             echo '<div class="container">
                     <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-check"></i> OK!</h5>
-                        Dados inseridos com sucesso !!!
+                        <h5><i class="icon fas fa-check"></i> Sucesso!</h5>
+                        Cadastro realizado! Bem-vindo ao FilmCatalog.
                     </div>
                 </div>';
         } else {
             echo '<div class="container">
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-check"></i> Erro!</h5>
-                        Dados não inseridos !!!
+                        <h5><i class="icon fas fa-exclamation-triangle"></i> Erro!</h5>
+                        Não foi possível realizar o cadastro.
                     </div>
                 </div>';
         }
     } catch (PDOException $e) {
-        // Loga a mensagem de erro em vez de exibi-la para o usuário
         error_log("ERRO DE PDO: " . $e->getMessage());
         echo '<div class="container">
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5><i class="icon fas fa-exclamation-triangle"></i> Erro!</h5>
-                    Ocorreu um erro ao tentar inserir os dados.
+                    Ocorreu um erro ao tentar realizar o cadastro.
                 </div>
             </div>';
     }
 }
 ?>
      
-      <!-- /.social-auth-links -->
-
-      
       <p style="text-align: center;">
-        <a href="index.php" class="text-center">Voltar para o Login!</a>
+        <a href="index.php" class="back-link">
+          <i class="fas fa-arrow-left mr-1"></i>Voltar para o Login
+        </a>
       </p>
     </div>
-    <!-- /.login-card-body -->
   </div>
 </div>
-<!-- /.login-box -->
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -185,6 +440,27 @@ if (isset($_POST['botao'])) {
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<script>
+  document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+    var fileName = document.getElementById("foto").files[0].name;
+    var nextSibling = e.target.nextElementSibling;
+    nextSibling.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + fileName;
+  });
+
+  // Efeito de foco suave nos inputs
+  document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentElement.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', function() {
+      if (this.value === '') {
+        this.parentElement.classList.remove('focused');
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
