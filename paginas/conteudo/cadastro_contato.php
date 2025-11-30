@@ -1,3 +1,24 @@
+<?php
+$id_user = 1;
+
+// CONEXÃO CORRIGIDA - BANCO CERTO
+try {
+    $pdo = new PDO("mysql:host=localhost;dbname=filmes25;charset=utf8", "root", "knlima");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erro ao conectar: " . $e->getMessage());
+}
+
+// BUSCAR FILMES DO CATÁLOGO - QUERY CORRIGIDA
+try {
+    $query = $pdo->prepare("SELECT id_filme, nome_filme, genero, classificacao, duracao, poster FROM tb_catalogo_filmes");
+    $query->execute();
+    $filmes = $query->fetchAll(PDO::FETCH_OBJ);
+} catch (PDOException $e) {
+    $filmes = [];
+    echo "<!-- Aviso: " . $e->getMessage() . " -->";
+}
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh; position: relative; overflow: hidden;">
     
@@ -40,11 +61,10 @@
                   <i class="fas fa-film mr-2" style="background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
                   Cadastrar Filme
                 </h3>
-
               </div>
 
               <!-- Formulário -->
-              <form role="form" action="" method="post" enctype="multipart/form-data">
+              <form role="form" action="" method="post">
                 <div class="card-body" style="padding: 35px 30px;">
                   
                   <!-- Campo Gênero do Filme -->
@@ -57,14 +77,14 @@
                       <select class="form-control" name="genero" id="genero" required 
                              style="border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #ffffff; padding: 16px 20px; font-size: 1rem; transition: all 0.3s ease;">
                         <option value="">Selecione o gênero</option>
-                        <option value="acao">Ação</option>
-                        <option value="aventura">Aventura</option>
-                        <option value="comedia">Comédia</option>
-                        <option value="drama">Drama</option>
-                        <option value="ficcao">Ficção Científica</option>
-                        <option value="terror">Terror</option>
-                        <option value="romance">Romance</option>
-                        <option value="animacao">Animação</option>
+                        <option value="Ação">Ação</option>
+                        <option value="Aventura">Aventura</option>
+                        <option value="Comédia">Comédia</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Ficção Científica">Ficção Científica</option>
+                        <option value="Terror">Terror</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Animação">Animação</option>
                       </select>
                       <div class="input-group-append">
                         <span class="input-group-text" style="border-radius: 0 14px 14px 0; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #a78bfa;">
@@ -84,12 +104,12 @@
                       <select class="form-control" name="classificacao" id="classificacao" required 
                              style="border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #ffffff; padding: 16px 20px; font-size: 1rem; transition: all 0.3s ease;">
                         <option value="">Selecione a classificação</option>
-                        <option value="livre">Livre</option>
-                        <option value="10">10 anos</option>
-                        <option value="12">12 anos</option>
-                        <option value="14">14 anos</option>
-                        <option value="16">16 anos</option>
-                        <option value="18">18 anos</option>
+                        <option value="Livre">Livre</option>
+                        <option value="10 anos">10 anos</option>
+                        <option value="12 anos">12 anos</option>
+                        <option value="14 anos">14 anos</option>
+                        <option value="16 anos">16 anos</option>
+                        <option value="18 anos">18 anos</option>
                       </select>
                       <div class="input-group-append">
                         <span class="input-group-text" style="border-radius: 0 14px 14px 0; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #fbbf24;">
@@ -106,8 +126,16 @@
                       Filme Escolhido
                     </label>
                     <div class="input-group">
-                      <input type="text" class="form-control" name="filme" id="filme" required placeholder="Selecione um filme" 
+                      <select class="form-control" name="filme" id="filme" required 
                              style="border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #ffffff; padding: 16px 20px; font-size: 1rem; transition: all 0.3s ease;">
+                        <option value="">Selecione um filme</option>
+                        <option value="THUNDERBOLTS">THUNDERBOLTS</option>
+                        <option value="BAILARINA">BAILARINA</option>
+                        <option value="AINDA ESTOU AQUI">AINDA ESTOU AQUI</option>
+                        <option value="ANORA">ANORA</option>
+                        <option value="COMO TREINAR O SEU DRAGÃO">COMO TREINAR O SEU DRAGÃO</option>
+                        <option value="PECADORES">PECADORES</option>
+                      </select>
                       <div class="input-group-append">
                         <span class="input-group-text" style="border-radius: 0 14px 14px 0; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #60a5fa;">
                           <i class="fas fa-film"></i>
@@ -160,10 +188,10 @@
                       <select class="form-control" name="cinema" id="cinema" required 
                              style="border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #ffffff; padding: 16px 20px; font-size: 1rem; transition: all 0.3s ease;">
                         <option value="">Selecione o cinema</option>
-                        <option value="cinema-shopping">Cinema Shopping Center</option>
-                        <option value="cineplex-park">Cineplex Park</option>
-                        <option value="moviemax">MovieMax Downtown</option>
-                        <option value="arte-cinema">Arte & Cinema</option>
+                        <option value="Cinema Shopping Center">Cinema Shopping Center</option>
+                        <option value="Cineplex Park">Cineplex Park</option>
+                        <option value="MovieMax Downtown">MovieMax Downtown</option>
+                        <option value="Arte & Cinema">Arte & Cinema</option>
                       </select>
                       <div class="input-group-append">
                         <span class="input-group-text" style="border-radius: 0 14px 14px 0; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #f59e0b;">
@@ -187,22 +215,6 @@
                           <i class="fas fa-signature"></i>
                         </span>
                       </div>
-                    </div>
-                  </div>
-
-                  <!-- Upload de Poster -->
-                  <div class="form-group" style="margin-bottom: 25px;">
-                    <label for="poster" style="color: #e2e8f0; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center;">
-                      <i class="fas fa-camera mr-2" style="color: #8b5cf6; font-size: 1.1rem;"></i>
-                      Poster do Filme
-                    </label>
-                    <div class="custom-file-upload" style="border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: 14px; padding: 25px; text-align: center; background: rgba(15, 23, 42, 0.5); transition: all 0.3s ease; cursor: pointer;">
-                      <input type="file" class="custom-file-input" name="poster" id="poster" style="display: none;">
-                      <label for="poster" style="cursor: pointer; margin: 0;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #8b5cf6; margin-bottom: 10px; display: block;"></i>
-                        <span style="color: #c7d2fe; font-weight: 500; display: block; margin-bottom: 5px;">Clique para selecionar uma imagem</span>
-                        <span style="color: #94a3b8; font-size: 0.9rem;">PNG, JPG, JPEG até 5MB</span>
-                      </label>
                     </div>
                   </div>
 
@@ -231,11 +243,68 @@
               </form>
 
               <!-- PHP para processamento -->
-              <?php include('../config/conexao.php');
+              <?php 
+              // Conexão para o INSERT - MESMO BANCO!
+              try {
+                  $conect = new PDO("mysql:host=localhost;dbname=filmes25;charset=utf8", "root", "knlima");
+                  $conect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+              } catch (PDOException $e) {
+                  die("Erro ao conectar: " . $e->getMessage());
+              }
+
               if (isset($_POST['botao'])) {
-                  // ... (código PHP para processar o formulário de filmes)
-                  // Mantenha o mesmo código PHP adaptado para filmes
-              } ?>
+                  // Receber dados do formulário
+                  $genero = $_POST['genero'];
+                  $classificacao = $_POST['classificacao'];
+                  $filme = $_POST['filme'];
+                  $horario = $_POST['horario'];
+                  $duracao = $_POST['duracao'];
+                  $cinema = $_POST['cinema'];
+                  $nome = $_POST['nome'];
+                  $id_user = $_POST['id_user'];
+
+                  // DEFINIR IMAGEM BASEADA NO FILME
+                  $poster_filmes = "Bailarina.jpeg";
+                  
+                  if ($filme == "THUNDERBOLTS") {
+                      $poster_filmes = "Thunderbolts.jpg";
+                  } elseif ($filme == "BAILARINA") {
+                      $poster_filmes = "Bailarina.jpeg";
+                  } elseif ($filme == "AINDA ESTOU AQUI") {
+                      $poster_filmes = "AindaEstouAqui.jpg";
+                  } elseif ($filme == "ANORA") {
+                      $poster_filmes = "Anora.jpg";
+                  } elseif ($filme == "COMO TREINAR O SEU DRAGÃO") {
+                      $poster_filmes = "ComoTreinaroSeuDragao.jpg";
+                  } elseif ($filme == "PECADORES") {
+                      $poster_filmes = "Pecadores.jpg";
+                  }
+
+                  // INSERIR NA TABELA CORRETA - tb_catalogo_filmes
+                  $insert = "INSERT INTO tb_catalogo_filmes 
+                            (nome_filme, genero, classificacao, duracao, poster) 
+                            VALUES 
+                            (:filme, :genero, :classificacao, :duracao, :poster)";
+
+                  try {
+                      $result = $conect->prepare($insert);
+                      $result->bindParam(':filme', $filme, PDO::PARAM_STR);
+                      $result->bindParam(':genero', $genero, PDO::PARAM_STR);
+                      $result->bindParam(':classificacao', $classificacao, PDO::PARAM_STR);
+                      $result->bindParam(':duracao', $duracao, PDO::PARAM_INT);
+                      $result->bindParam(':poster', $poster_filmes, PDO::PARAM_STR);
+                      
+                      if($result->execute()) {
+                          echo '<script>alert("🎉 Filme cadastrado com sucesso!");</script>';
+                          echo '<script>setTimeout(() => { location.href = "home.php"; }, 1000);</script>';
+                      } else {
+                          echo '<script>alert("❌ Erro ao cadastrar filme!");</script>';
+                      }
+                  } catch(PDOException $e) {
+                      echo '<script>alert("❌ Erro no banco: ' . $e->getMessage() . '");</script>';
+                  }
+              } 
+              ?>
             </div>
           </div>
 
@@ -248,157 +317,162 @@
                 <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 50%);"></div>
                 <h3 class="card-title" style="color: #ffffff; font-weight: 700; margin: 0; font-size: 1.4rem;">
                   <i class="fas fa-film mr-2" style="background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                  Filmes Recentes
+                  Filmes em cartaz
                 </h3>
-         
               </div>
 
-              <!-- Tabela de Filmes -->
-              <div class="card-body p-0">
-                <div class="table-container" style="border-radius: 0 0 24px 24px; overflow: hidden;">
-                  <table class="table" style="margin: 0; background: transparent;">
-                    <thead style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);">
-                      <tr>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px; text-align: center; width: 60px;">#</th>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px; text-align: center; width: 80px;">Poster</th>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px;">Nome</th>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px;">Gênero</th>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px;">Classificação</th>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px;">Cinema</th>
-                        <th style="color: #a5b4fc; font-weight: 700; border: none; padding: 25px 20px; text-align: center; width: 120px;">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      $select = "SELECT * FROM tb_filmes WHERE id_user = :id_user ORDER BY id_filmes DESC LIMIT 6";
-                      try {
-                          $result = $conect->prepare($select);
-                          $cont = 1; 
-                          $result->bindParam(':id_user', $id_user, PDO::PARAM_INT);
-                          $result->execute();
-                          $contar = $result->rowCount();
+              <!-- Cards de Filmes -->
+              <div class="card-body">
+                <div class="row">
+                  <?php
+                  // CONSULTA CORRIGIDA - usando apenas colunas existentes
+                  $select = "SELECT id_filme, nome_filme, genero, classificacao, duracao, poster FROM tb_catalogo_filmes ORDER BY id_filme DESC LIMIT 6";
+                  try {
+                      $result = $pdo->prepare($select); 
+                      $result->execute();
+                      $contar = $result->rowCount();
+                      
+                      if ($contar > 0) {
+                          while ($show = $result->fetch(PDO::FETCH_OBJ)) {
+                  ?>  
+                  <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="movie-card" style="border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(30, 41, 59, 0.8); overflow: hidden; transition: all 0.3s ease;">
+                     <!-- IMAGEM DO FILME - AGORA VAI! -->
+<div style="height: 300px; overflow: hidden; position: relative;">
+    <?php
+    $caminho_web = "http://localhost/index/clonefilmes/clonefilmes/filmes/" . $show->poster;
+    echo '<img src="' . $caminho_web . '" 
+          style="width: 100%; height: 100%; object-fit: cover;" 
+          alt="' . $show->nome_filme . '">';
+    ?>
+    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px 15px 15px 15px;">
+        <h5 style="color: #ffffff; font-weight: 700; margin: 0; font-size: 1.2rem;"><?php echo $show->nome_filme; ?></h5>
+    </div>
+</div>
+
+                      <!-- INFORMAÇÕES DO FILME - ESTILO CENTERPLEX -->
+                      <div style="padding: 15px; background: rgba(15, 23, 42, 0.8);">
+                        <div style="color: #e2e8f0; font-size: 0.9rem;">
+                          <!-- DURAÇÃO E GÊNERO LADO A LADO -->
+                          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="display: flex; align-items: center;">
+                              <span style="color: #a78bfa; margin-right: 5px;">⏱️</span>
+                              <?php echo $show->duracao; ?> min
+                            </span>
+                            <span style="display: flex; align-items: center;">
+                              <span style="color: #fbbf24; margin-right: 5px;">🎭</span>
+                              <?php echo $show->genero; ?>
+                            </span>
+                          </div>
                           
-                          if ($contar > 0) {
-                              while ($show = $result->FETCH(PDO::FETCH_OBJ)) {
-                      ?>  
-                      <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease;">
-                        <td style="color: #c7d2fe; border: none; padding: 20px; text-align: center; vertical-align: middle; font-weight: 600;"><?php echo $cont++; ?></td>
-                        <td style="border: none; padding: 20px; text-align: center; vertical-align: middle;">
-                          <div style="width: 50px; height: 70px; border-radius: 8px; overflow: hidden; border: 2px solid #8b5cf6; margin: 0 auto;">
-                            <img src="../img/filmes/<?php echo $show->poster_filmes; ?>" alt="Poster" style="width: 100%; height: 100%; object-fit: cover;">
+                          <!-- CLASSIFICAÇÃO E STATUS LADO A LADO -->
+                          <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="display: flex; align-items: center;">
+                              <span style="color: #f59e0b; margin-right: 5px;">⭐</span>
+                              <?php echo $show->classificacao; ?>
+                            </span>
+                            <span style="display: flex; align-items: center;">
+                              <span style="color: #34d399; margin-right: 5px;">✅</span>
+                              Disponível
+                            </span>
                           </div>
-                        </td>
-                        <td style="color: #ffffff; font-weight: 600; border: none; padding: 20px; vertical-align: middle;"><?php echo $show->nome_filmes; ?></td>
-                        <td style="color: #c7d2fe; border: none; padding: 20px; vertical-align: middle;">
-                          <i class="fas fa-theater-masks mr-2" style="color: #a78bfa;"></i><?php echo $show->genero_filmes; ?>
-                        </td>
-                        <td style="color: #c7d2fe; border: none; padding: 20px; vertical-align: middle;">
-                          <i class="fas fa-star mr-2" style="color: #fbbf24;"></i><?php echo $show->classificacao_filmes; ?>
-                        </td>
-                        <td style="color: #c7d2fe; border: none; padding: 20px; vertical-align: middle;">
-                          <i class="fas fa-building mr-2" style="color: #f59e0b;"></i><?php echo $show->cinema_filmes; ?>
-                        </td>
-                        <td style="border: none; padding: 20px; vertical-align: middle; text-align: center;">
-                          <div class="btn-group">
-                            <a href="home.php?acao=editar&id=<?php echo $show->id_filmes; ?>" class="btn" title="Editar" style="border-radius: 10px; border: none; background: linear-gradient(135deg, #34d399 0%, #10b981 100%); padding: 10px 14px; margin-right: 8px; color: white; transition: all 0.3s ease;">
-                              <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="conteudo/del-filme.php?idDel=<?php echo $show->id_filmes; ?>" onclick="return confirm('Deseja remover o filme?')" class="btn" title="Excluir" style="border-radius: 10px; border: none; background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); padding: 10px 14px; color: white; transition: all 0.3s ease;">
-                              <i class="fas fa-trash"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php
-                              }
-                          } else {
-                      ?>
-                      <tr>
-                        <td colspan="7" style="text-align: center; padding: 60px 20px; border: none;">
-                          <div style="color: #94a3b8; text-align: center;">
-                            <i class="fas fa-film" style="font-size: 4rem; margin-bottom: 20px; display: block; background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                            <h4 style="color: #e2e8f0; margin-bottom: 10px; font-weight: 600;">Nenhum filme encontrado</h4>
-                            <p style="color: #94a3b8; font-size: 1rem; margin-bottom: 0;">
-                              Adicione seu primeiro filme usando o formulário ao lado
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php
+                        </div>
+                      </div>
+
+                      <!-- BOTÃO DE AÇÃO -->
+                      <div style="padding: 15px; background: rgba(15, 23, 42, 0.8); border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                        <a href="#" class="btn w-100" 
+                           style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); border: none; border-radius: 8px; padding: 10px; color: white; transition: all 0.3s ease;">
+                          <i class="fas fa-ticket-alt mr-2"></i>Agendar Este Filme
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <?php
                           }
-                      } catch (PDOException $e) {
-                          echo '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #ef4444;">Erro ao carregar filmes</td></tr>';
+                      } else {
+                  ?>
+                  <div class="col-12 text-center py-5">
+                    <i class="fas fa-film" style="font-size: 4rem; color: #94a3b8; margin-bottom: 20px;"></i>
+                    <h4 style="color: #e2e8f0; margin-bottom: 10px;">Nenhum filme encontrado</h4>
+                    <p style="color: #94a3b8;">Adicione filmes usando o formulário ao lado</p>
+                  </div>
+                  <?php
                       }
-                      ?>
-                    </tbody>
-                  </table>
+                  } catch (PDOException $e) {
+                      echo '<div class="col-12 text-center py-4" style="color: #ef4444;">Erro ao carregar filmes: ' . $e->getMessage() . '</div>';
+                  }
+                  ?>
                 </div>
               </div>
             </div>
           </div>
-
-        </div>
+        </div>  
       </div>
     </section>
 </div>
 
-<!-- Estilos Adicionais -->
 <style>
-  .form-control:focus {
+/* CORREÇÃO DO TAMANHO - IGUAL AOS INPUTS */
+select.form-control,
+#genero, 
+#classificacao,
+#filme,
+#cinema {
+    background: rgba(15, 23, 42, 0.8) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    padding: 16px 20px !important;
+    font-size: 1rem !important;
+    appearance: menulist !important;
+    -webkit-appearance: menulist !important;
+    height: 54px !important;
+    line-height: normal !important;
+    min-height: 54px !important;
+    max-height: 54px !important;
+}
+
+/* Garantir que os inputs também tenham altura consistente */
+input.form-control {
+    height: 54px !important;
+    min-height: 54px !important;
+    max-height: 54px !important;
+}
+
+select.form-control option,
+#genero option,
+#classificacao option, 
+#filme option,
+#cinema option {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    padding: 12px 20px !important;
+    font-size: 1rem !important;
+}
+
+select.form-control:focus,
+#genero:focus, 
+#classificacao:focus,
+#filme:focus,
+#cinema:focus {
     border-color: #8b5cf6 !important;
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
     background: rgba(15, 23, 42, 0.9) !important;
-    color: #ffffff !important;
-    transform: translateY(-2px);
-  }
-  
-  .custom-file-upload:hover {
-    border-color: #8b5cf6 !important;
-    background: rgba(15, 23, 42, 0.7) !important;
-    transform: translateY(-2px);
-  }
-  
-  button:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.5) !important;
-  }
-  
-  .btn-group .btn:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
-  }
-  
-  tr:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-  }
-  
-  .input-group-text {
-    transition: all 0.3s ease;
-  }
-  
-  .input-group:focus-within .input-group-text {
-    color: #8b5cf6 !important;
-    border-color: #8b5cf6 !important;
-  }
+}
+
+/* Efeitos para os cards de filmes */
+.movie-card:hover,
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
+    border-color: rgba(139, 92, 246, 0.3);
+}
 </style>
 
 <script>
-  // Efeitos interativos
+  // Efeito de brilho no botão principal
   document.addEventListener('DOMContentLoaded', function() {
-    // Upload de arquivo
-    const fileInput = document.getElementById('poster');
-    const fileUpload = document.querySelector('.custom-file-upload');
-    
-    fileInput.addEventListener('change', function(e) {
-      const fileName = this.files[0]?.name || "Nenhum arquivo selecionado";
-      fileUpload.innerHTML = `
-        <i class="fas fa-check-circle" style="font-size: 2rem; color: #34d399; margin-bottom: 10px; display: block;"></i>
-        <span style="color: #34d399; font-weight: 500; display: block; margin-bottom: 5px;">Arquivo selecionado</span>
-        <span style="color: #c7d2fe; font-size: 0.9rem;">${fileName}</span>
-      `;
-    });
-
-    // Efeito de brilho no botão principal
     const mainButton = document.querySelector('button[type="submit"]');
     mainButton.addEventListener('mouseenter', function() {
       this.querySelector('div').style.left = '100%';
@@ -409,3 +483,4 @@
     });
   });
 </script>
+<!-- kn -->
