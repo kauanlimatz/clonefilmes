@@ -135,6 +135,8 @@ try {
                         <option value="ANORA">ANORA</option>
                         <option value="COMO TREINAR O SEU DRAGÃO">COMO TREINAR O SEU DRAGÃO</option>
                         <option value="PECADORES">PECADORES</option>
+                        <option value="O BRUTALISTA">O BRUTALISTA</option>
+                        <option value="F1">F1</option> <!-- FILME F1 ADICIONADO -->
                       </select>
                       <div class="input-group-append">
                         <span class="input-group-text" style="border-radius: 0 14px 14px 0; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.8); color: #60a5fa;">
@@ -263,7 +265,7 @@ try {
                   $nome = $_POST['nome'];
                   $id_user = $_POST['id_user'];
 
-                  // DEFINIR IMAGEM BASEADA NO FILME
+                  // DEFINIR IMAGEM BASEADA NO FILME - AGORA COM TODOS OS FILMES
                   $poster_filmes = "Bailarina.jpeg";
                   
                   if ($filme == "THUNDERBOLTS") {
@@ -278,7 +280,11 @@ try {
                       $poster_filmes = "ComoTreinaroSeuDragao.jpg";
                   } elseif ($filme == "PECADORES") {
                       $poster_filmes = "Pecadores.jpg";
-                  }
+                  } elseif ($filme == "O BRUTALISTA") {
+                      $poster_filmes = "OBrutalista.jpeg";
+                 } elseif ($filme == "F1") {
+    $poster_filmes = "f1.jpeg"; // CORRIGIDO: "f1.jpeg" em minúsculo
+}
 
                   // INSERIR NA TABELA CORRETA - tb_catalogo_filmes
                   $insert = "INSERT INTO tb_catalogo_filmes 
@@ -483,4 +489,3 @@ select.form-control:focus,
     });
   });
 </script>
-<!-- kn -->
